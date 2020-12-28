@@ -7,7 +7,7 @@
  | |  |  _  |/ ___ \| | | |___  | |_| |___) |
 |___| |_| |_/_/   \_\_| |_____|  \___/|____/
 -->
-// based off vezquex's UTC (local time) time standard clock .github.io/clock/
+// based off vezquex's UTC (local time) time standard clock
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width" />
@@ -28,7 +28,7 @@
 <body>
 
 <div class="clock">
-	<div class="numdate">&nbsp;</div>
+	<div class="numdate"></div>
 	<div class="time">
 		@<span class="beats">--</span><span class="decimal-wrap">.<span class="decimal">--</span></span> .beats
 	</div>
@@ -37,12 +37,12 @@
 	</div>
 </div>
 
-<script type="text/javascript">
+<script>
 var clock_widget = function(){
 	var clock = {};
 	clock.el = document.querySelector('.clock');
 
-	(['weekday','beats', 'decimal', 'date','numdate']).forEach(function(component){
+	(['numdate', 'beats', 'decimal', 'date']).forEach(function(component){
 		clock[component] = clock.el.querySelector('.'+component);
 	})
 
@@ -56,21 +56,21 @@ var clock_widget = function(){
     // Bottom (e.g. 'Monday, December 28')
     var locale = "en-us";
 		options = {
-			weekday: 'long', month: 'long', day: 'numeric'
+			weekday: 'long', month: 'long', day: 'numeric',
+			timeZone: 'UTC' // needed for UTC output
 		};
 		clock.date.innerHTML = t.toLocaleString(locale, options);
 
-		// Getting UTC+1 (Biel) time in vars
+		// UTC+1 time in vars
 		var hours = t.getUTCHours();
-		hours = (hours + 1) % 24; // UTC+1 w/o DST
 		var minutes = t.getUTCMinutes();
 		var seconds = t.getUTCSeconds();
 
 		// Swatch Beat
 		var beat = (hours*3600 + minutes*60 + seconds) / 86.4;
-    // formatting to: XXX.XX
+    		// formatting to: XXX.XX
 		beat = beat.toLocaleString(locale, {maximumFractionDigits: 2, minimumFractionDigits: 2});
-    // splitting into two to allow wrap of the decimal
+    		// splitting into two to allow wrap of the decimal
 		clock.beats.innerHTML = beat.split('.')[0];
 		clock.decimal.innerHTML = beat.split('.')[1];
 	}
